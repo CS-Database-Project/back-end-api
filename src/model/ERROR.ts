@@ -1,0 +1,7 @@
+export enum ERROR{
+    NO_ERROR,
+    DB_CONNECTION,
+    DUPLICATE_ENTRY,
+    FOREIGN_KEY,
+    UNKNOWN
+}
