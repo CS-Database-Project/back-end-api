@@ -4,6 +4,7 @@ import { model } from './../../model/index';
 import { ERROR } from '../../model/ERROR';
 import { v4 as UUID } from 'uuid';
 import { encryptPassword } from '../../utilities/passwordHasher';
+import { Request, Response } from '../../utilities/types';
 
 
 /*
@@ -22,23 +23,25 @@ const validator = inputValidator(
 );
 
 /*
-    STEP 1 - Registering Customer
+    STEP 2 - Registering Customer
 */
 
-const registerCustomer:Handler = async(req, res) => {
+const registerCustomer:Handler = async(req: Request, res: Response) => {
 
-    const { responseGenerator } = res;
-
-    const { firstName, lastName, birthDate, phone, address, city, state } = req.body;
+    
+    const { responseGenerator } =  res;
+    const { firstName, lastName, birthDate, email, phone, address, city, state } = req.body;
     let { username, password } = req.body;
 
     const customerId = UUID();
     password = await encryptPassword(password);
+    
     const customerData = {
         customerId,
         firstName,
         lastName,
         birthDate,
+        email,
         phone,
         address,
         city,
@@ -53,8 +56,25 @@ const registerCustomer:Handler = async(req, res) => {
     };
 
     const error = await model.customer.customer.addCustomerEntry(customerData, customerAccountData);
-    if(error === ERROR.NO_ERROR) responseGenerator.status.OK().message("Success...").send();
+    if(error === ERROR.NO_ERROR) {
+        return responseGenerator.
+                status.
+                OK().
+                message("Successfully Registered...").
+                data(customerData).
+                send();
+    }
+    if(error == ERROR.DUPLICATE_ENTRY){
+        return responseGenerator.
+                status.
+                BAD_REQUEST().
+                message("Customer Already Exists...").
+                send();
+    }
+    
     responseGenerator.prebuild().send();
+
+   
 }
 
 export default [validator, registerCustomer as EHandler];

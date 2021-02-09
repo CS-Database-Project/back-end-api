@@ -21,3 +21,4 @@ export type Handler = (req: Request, res: Response, next: NextFunction) => void
 export { Handler as EHandler } from 'express';
 export { Request as ERequest } from 'express';
 export { Response as EResponse } from 'express';
+export { NextFunction } from 'express';

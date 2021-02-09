@@ -9,6 +9,7 @@ export async function encryptPassword(password: string){
         return await hash(password, salt);
     }catch(ex){
         console.log(ex);
+        return ex;
     }
    
 }

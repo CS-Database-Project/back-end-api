@@ -2,9 +2,12 @@ import { pool } from './index';
 import { convertCamelCaseDeep } from '../utilities/camelCase';
 import { ERROR } from './ERROR';
 
-export async function query(statement:string, args: string[]){
+export async function query(statement:string, args: string[], expectsData: boolean){
     try{
         const result= await pool.query(statement, args);
+        if(expectsData && result.rows.length === 0){
+            return [ERROR.NOT_FOUND, []];
+        }
         return [ERROR.NO_ERROR, convertCamelCaseDeep(result.rows)];
     }catch(e){
         return identifyError(e);

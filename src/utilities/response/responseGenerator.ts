@@ -32,7 +32,7 @@ export class ResponseGenerator{
 
     data(data: any){
         this._data.data = data;
-        return this._data;
+        return this;
     }
 
     prebuild(): ResponseGenerator{
