@@ -40,7 +40,7 @@ const validateCustomer:Handler = async(req: Request, res: Response, next: NextFu
         responseGenerator.status.BAD_REQUEST().message("Invalid username or password...").send();
         return;
     }
-    responseGenerator.status.OK().data(error).send();
+    responseGenerator.prebuild().send();
 }
 
 /*
