@@ -1,4 +1,4 @@
-import { query, transaction } from '../queryTool';
+import { find, query, transaction } from '../queryTool';
 import { CustomerAccount, CustomerAccountModel } from './customer_account';
 import { generateToken } from './../../utilities/token';
 import { ERROR } from '../ERROR';
@@ -51,10 +51,9 @@ export class CustomerModel{
         return error;
     }
 
-    static async findByCustomerId(customerId: string): Promise<[ERROR, Customer[]]> {
-        const statement = `SELECT * FROM ${this.tableName} WHERE customer_id=$1;`
-        const args = [customerId];
-        const [error, data] = await query(statement, args, true);
+
+    static async findByCustomerById(customerId: string): Promise<[ERROR, Customer[]]> {
+        const [error, data] = await find(this.tableName, [], 'customer_id', customerId);
         return [error as ERROR, data as Customer[]];
     }
 

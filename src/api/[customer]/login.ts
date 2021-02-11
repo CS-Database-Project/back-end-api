@@ -50,7 +50,7 @@ const serveToken: Handler = async(req: Request, res: Response) => {
     const { responseGenerator } = res;
     const { customerId } = req.body;
 
-    const [error, data] = await model.customer.customer.findByCustomerId(customerId);
+    const [error, data] = await model.customer.customer.findByCustomerById(customerId);
     const customerData = data[0];
     if( error != ERROR.NO_ERROR){
         responseGenerator.prebuild().send();

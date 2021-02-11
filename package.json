@@ -32,6 +32,8 @@
     "express-validator": "^6.9.2",
     "jsonwebtoken": "^8.5.1",
     "pg": "^8.5.1",
+    "snake-case": "^3.0.4",
+    "snakecase-keys": "^3.2.1",
     "uuid": "^8.3.2"
   }
 }
