@@ -1,10 +1,12 @@
 import { ERROR } from '../ERROR';
-import { query } from '../queryTool';
+import { find, query, select } from '../queryTool';
 
 export interface CustomerAccount{
     customerId:string,
     username:string,
     password:string,
+    activeStatus:boolean,
+    usertype:string
 }
 
 export class CustomerAccountModel{
@@ -12,9 +14,7 @@ export class CustomerAccountModel{
     static tableName = 'customer_account';
 
     static async findByUsername(username: string):Promise<[ERROR, CustomerAccount[]]>{
-        const statement = `SELECT * FROM ${this.tableName} WHERE username=$1;`
-        const args = [username];
-        const [error, data] = await query(statement, args, true);
+        const [error, data] = await find(this.tableName, [], 'username', username);
         return [error as ERROR, data as CustomerAccount[]];
     }
 
