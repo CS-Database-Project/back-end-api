@@ -52,6 +52,7 @@ const registerCustomer:Handler = async(req: Request, res: Response) => {
         customerId,
         username,
         password,
+        activeStatus: true,
         usertype:"Customer"
     };
 

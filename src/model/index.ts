@@ -12,9 +12,12 @@ export const pool = new Pool({
 import { CustomerModel } from './customer/customer';
 import { CustomerAccountModel } from './customer/customer_account';
 
+
+
 export const model = {
     customer: {
         customer: CustomerModel,
         customerAccount: CustomerAccountModel
     }
+
 }

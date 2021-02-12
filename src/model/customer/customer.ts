@@ -33,7 +33,7 @@ export class CustomerModel{
 
     static async addCustomerEntry(customerData :Customer, customerAccountData :CustomerAccount){
         const query1 = `INSERT INTO ${this.tableName}(customer_id, first_name, last_name, birth_date,email, phone,address,city,state) VALUES ($1,$2,$3,$4,$5,$6,$7,$8, $9)`;
-        const query2 = `INSERT INTO ${CustomerAccountModel.tableName}(customer_id,username,password) VALUES ($1,$2,$3)`;
+        const query2 = `INSERT INTO ${CustomerAccountModel.tableName}(customer_id,username,password,active_status, usertype) VALUES ($1,$2,$3,$4,$5)`;
         const args1= [customerData.customerId,
                       customerData.firstName,
                       customerData.lastName,
@@ -46,7 +46,9 @@ export class CustomerModel{
 
         const args2 = [customerAccountData.customerId,
                        customerAccountData.username, 
-                       customerAccountData.password];
+                       customerAccountData.password,
+                       customerAccountData.activeStatus ? 'true' : 'false',
+                       customerAccountData.usertype];
         const error = await transaction([query1, query2],[args1, args2]);
         return error;
     }

@@ -25,12 +25,18 @@ const validateCustomer:Handler = async(req: Request, res: Response, next: NextFu
     const [error, data] = await model.customer.customerAccount.findByUsername(username);
     const accountData = data[0];
     if(error === ERROR.NO_ERROR){
-        const { password: passwordInDb } = accountData;
+        const { password: passwordInDb, activeStatus } = accountData;
         const validPassword = await bcrypt.compare(password, passwordInDb);
         if(!validPassword){
             responseGenerator.status.BAD_REQUEST().message("Invalid username or password").send();
             return;
         }
+
+        if(!activeStatus){
+            responseGenerator.status.UNAUTHORIZED().message("Your Account is disabled...").send();
+            return;
+        }
+
         req.body.customerId = accountData.customerId;
         next();
         return;
@@ -68,7 +74,6 @@ const serveToken: Handler = async(req: Request, res: Response) => {
 }
 
 export default [validator, validateCustomer as EHandler, serveToken as EHandler];
-
 
 
 
