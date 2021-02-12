@@ -25,7 +25,7 @@ interface UserPayload{
     address:string,
     city:string,
     state:string,
-    usertype: "User"
+    usertype: "Admin"|"Operator"
 }
 
 export class UserModel{
