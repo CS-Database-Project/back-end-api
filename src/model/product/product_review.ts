@@ -9,7 +9,7 @@ export interface ProductReview{
     description:string
 }
 
-export class ProductReview{
+export class ProductReviewModel{
     static tableName = 'product_review';
 
     static async addProductReview(productReviewData :ProductReview){

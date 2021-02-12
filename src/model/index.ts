@@ -12,9 +12,54 @@ export const pool = new Pool({
 import { CustomerModel } from './customer/customer';
 import { CustomerAccountModel } from './customer/customer_account';
 
+import { UserModel } from './user/user';
+import { UserAccountModel } from './user/user_account';
+
+import { OrderModel } from './order/order';
+import { OrderItemModel } from './order/order_item';
+import { OrderItemNoteModel } from './order/order_item_note';
+import { OrderStatusModel } from './order/order_status';
+import { OrderCourierModel } from './order/order_courier';
+import { CourierModel } from './order/courior';
+
+import { ProductModel } from './product/product';
+import { ProductVariantModel } from './product/product_variant';
+import { ProductReviewModel } from './product/product_review';
+import { ProductCustomAttributeModel } from './product/product_custom_attribute';
+import { ProductCategoryModel } from './product/product_category';
+import { CategoryModel } from './product/category/category';
+import { SubCategoryModel } from './product/category/subcategory';
+import { User } from './user/user';
+
 export const model = {
+
     customer: {
         customer: CustomerModel,
         customerAccount: CustomerAccountModel
+    },
+    
+    user: {
+        user: UserModel,
+        userAccount: UserAccountModel
+    },
+
+    order: {
+        order: OrderModel,
+        orderItem: OrderItemModel,
+        orderItemNote: OrderItemNoteModel,
+        orderStatus: OrderStatusModel,
+        orderCourier: OrderCourierModel,
+        courier: CourierModel
+    },
+
+    product: {
+        product: ProductModel,
+        productVariant: ProductVariantModel,
+        review: ProductReviewModel,
+        productCustomAttribute:ProductCustomAttributeModel,
+        productCategory: ProductCategoryModel,
+        category: CategoryModel,
+        subCategory: SubCategoryModel 
     }
+
 }

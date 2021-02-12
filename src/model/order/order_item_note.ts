@@ -8,7 +8,7 @@ export interface OrderItemNote{
     note:string
 }
 
-export class OrderItemNote{
+export class OrderItemNoteModel{
 
     static tableName = 'order_item_note';
 

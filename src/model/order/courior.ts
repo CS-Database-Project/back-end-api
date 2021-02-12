@@ -6,12 +6,12 @@ export interface Courier{
     courierName:string,
 }
 
-export class Courier{
+export class CourierModel{
 
     static tableName = 'courier';
 
-    static async addCourier(CourierDetails: Courier):Promise<[ERROR, Courier[]]>{
-        const [error, data] = await insert(this.tableName, Courier);
+    static async addCourier(courierDetails: Courier):Promise<[ERROR, Courier[]]>{
+        const [error, data] = await insert(this.tableName, courierDetails);
         return [error as ERROR, data as Courier[]];
     }
 

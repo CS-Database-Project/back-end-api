@@ -1,5 +1,5 @@
-import { find, query, transaction } from '../queryTool';
-import { ERROR } from '../ERROR';
+import { find, query, transaction } from '../../queryTool';
+import { ERROR } from '../../ERROR';
 
 
 
