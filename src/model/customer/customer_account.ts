@@ -1,5 +1,5 @@
 import { ERROR } from '../ERROR';
-import { find, query, select } from '../queryTool';
+import { find, query, select, update } from '../queryTool';
 
 export interface CustomerAccount{
     customerId:string,
@@ -17,5 +17,11 @@ export class CustomerAccountModel{
         const [error, data] = await find(this.tableName, [], 'username', username);
         return [error as ERROR, data as CustomerAccount[]];
     }
+
+    static async changeAccountStatus(customerId:string, activeStatus:boolean):Promise<ERROR>{
+        const [error,data] = await update(this.tableName,{customerId,activeStatus}, 'customerId', customerId);
+        return error as ERROR;
+    }
+
 
 }

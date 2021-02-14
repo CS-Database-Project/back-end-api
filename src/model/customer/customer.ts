@@ -1,4 +1,4 @@
-import { find, query, transaction } from '../queryTool';
+import { find, query, transaction, update } from '../queryTool';
 import { CustomerAccount, CustomerAccountModel } from './customer_account';
 import { generateToken } from './../../utilities/token';
 import { ERROR } from '../ERROR';
@@ -70,6 +70,11 @@ export class CustomerModel{
         const statement = `SELECT * FROM ${this.tableName} JOIN ${CustomerAccountModel.tableName} USING(customer_id) WHERE ${convertSnakeCase(key)}=$1;`
         const [error, data] = await query(statement, [value], true);
         return [error as ERROR, data];
+    }
+
+    static async updateCustomerDetails(customerData: Customer){
+        const [error, data] = await update(this.tableName, customerData, 'customerId', customerData.customerId);
+        return error; 
     }
 
     static generateToken(customerPayload: CustomerPayload){
