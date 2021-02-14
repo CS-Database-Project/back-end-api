@@ -1,8 +1,8 @@
 import { model } from '../../model';
 import { ERROR } from '../../model/ERROR';
 import { EHandler,Handler, Request, Response } from '../../utilities/types';
-import { inputValidator } from '../../utilities/validation/inputValidator';
-import { body } from '../../utilities/validation/inputValidator';
+import { inputValidator, body } from '../../utilities/validation/inputValidator';
+
 
 const validator = inputValidator(
     body('customerId').exists().withMessage("Customer ID is required"),

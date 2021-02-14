@@ -24,4 +24,15 @@ export class CustomerAccountModel{
     }
 
 
+    static async updateUsername(oldUsername: string, newUsername: string){
+        const [error, data] = await update(this.tableName, { username: newUsername}, 'username', oldUsername);
+        return [error,data];
+    }
+
+    static async updatePassword(newPassword: string, username: string){
+        const [error, data] = await update(this.tableName, { password: newPassword}, 'username', username);
+        return [error,data];
+    }
+
+
 }
