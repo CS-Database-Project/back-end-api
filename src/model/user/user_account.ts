@@ -6,7 +6,7 @@ export interface UserAccount{
     username:string,
     password:string,
     activeStatus:boolean,
-    usertype:"Admin"|"Operator"
+    usertype:string
 }
 
 export class UserAccountModel{
