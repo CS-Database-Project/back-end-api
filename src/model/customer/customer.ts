@@ -1,7 +1,8 @@
-import { find, query, transaction } from '../queryTool';
+import { find, query, transaction, update } from '../queryTool';
 import { CustomerAccount, CustomerAccountModel } from './customer_account';
 import { generateToken } from './../../utilities/token';
 import { ERROR } from '../ERROR';
+import { convertSnakeCase } from './../../utilities/snakeCase';
 
 export interface Customer{
     customerId:string,
@@ -57,6 +58,23 @@ export class CustomerModel{
     static async findByCustomerById(customerId: string): Promise<[ERROR, Customer[]]> {
         const [error, data] = await find(this.tableName, [], 'customer_id', customerId);
         return [error as ERROR, data as Customer[]];
+    }
+
+    static async getAllCustomers(): Promise<[ERROR, any]> {
+        const statement = `SELECT ${this.tableName}.*,${CustomerAccountModel.tableName}.usertype, ${CustomerAccountModel.tableName}.username FROM ${this.tableName} JOIN ${CustomerAccountModel.tableName} USING(customer_id);`
+        const [error, data] = await query(statement, [], true);
+        return [error as ERROR, data];
+    }
+
+    static async getSortedCustomersByQuery(key:string, value:string) {
+        const statement = `SELECT * FROM ${this.tableName} JOIN ${CustomerAccountModel.tableName} USING(customer_id) WHERE ${convertSnakeCase(key)}=$1;`
+        const [error, data] = await query(statement, [value], true);
+        return [error as ERROR, data];
+    }
+
+    static async updateCustomerDetails(customerData: Customer){
+        const [error, data] = await update(this.tableName, customerData, 'customerId', customerData.customerId);
+        return error; 
     }
 
     static generateToken(customerPayload: CustomerPayload){
