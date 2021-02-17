@@ -1,4 +1,4 @@
-import { find, query, transaction } from '../queryTool';
+import { find, query, transaction, select } from '../queryTool';
 import { ERROR } from '../ERROR';
 
 export interface ProductReview{
@@ -12,16 +12,21 @@ export interface ProductReview{
 export class ProductReviewModel{
     static tableName = 'product_review';
 
+    static async viewProductReview(){
+        const query= select(this.tableName,['review_id','customer_id','product_id','rating','description']);
+        return query;
+    }
+
     static async addProductReview(productReviewData :ProductReview){
-        const query = `INSERT INTO ${this.tableName}(review_id,customer_id,product_id,rating,description) VALUES ($1,$2,$3,$4)`;
+        const query = `INSERT INTO ${this.tableName}(review_id,customer_id,product_id,rating,description) VALUES ($1,$2,$3,$4,$5)`;
         const args= [productReviewData.reviewId,
                       productReviewData.customerId,
                       productReviewData.productId,
                       productReviewData.rating,
                       productReviewData.description];
 
-        //const error = await transaction([query1, query2],[args1, args2]);
-        //return error;
+        const error = await transaction([query],[args]);
+        return error;
     }
 
     static async findByProductReviewById(reviewId: string): Promise<[ERROR, ProductReview[]]> {
