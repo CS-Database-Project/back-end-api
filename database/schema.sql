@@ -62,7 +62,7 @@ CREATE TABLE IF NOT EXISTS sub_category(
 CREATE TABLE IF NOT EXISTS product(
     product_id TEXT PRIMARY KEY,
     title TEXT NOT NULL UNIQUE,
-    sku TEXT NOT NULL UNIQUE,
+    sku TEXT NOT NULL,
     weight NUMERIC(10,2) NOT NULL,
     description TEXT NOT NULL
 );
