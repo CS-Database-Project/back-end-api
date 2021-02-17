@@ -1,4 +1,4 @@
-import { model } from './../../model/index';
+import { model } from "../../model";
 import { ERROR } from "../../model/ERROR";
 import { Handler,EHandler, Request, Response, NextFunction } from "../../utilities/types";
 import { inputValidator, query } from './../../utilities/validation/inputValidator';
@@ -8,8 +8,9 @@ import { inputValidator, query } from './../../utilities/validation/inputValidat
  */
 
 const validateInput = inputValidator(
-    query("orderId").optional().isUUID().withMessage("orderId query should be valid uuid"),
     query("customerId").optional().isUUID().withMessage("customerId query should be valid uuid"),
+    query("email").optional().isEmail().withMessage("email query is not a valid email"),
+    query("activeStatus").optional().isBoolean().withMessage("status query is not a valid boolean")
 );
 
 /**
@@ -28,7 +29,7 @@ const validateQuery: Handler = (req:Request, res: Response, next: NextFunction) 
     }
 
     req.body.existsQuery = true;
-    const validQueryParameters = ["orderId", "customerId"];
+    const validQueryParameters = ["customerId", "email", "activeStatus"];
 
     for(let param of validQueryParameters){
         if(paramKeys.includes(param)){
@@ -47,41 +48,42 @@ const validateQuery: Handler = (req:Request, res: Response, next: NextFunction) 
  */
 
 
-const getOrderDetails: Handler = async(req: Request, res: Response) => {
+const getCustomerDetails: Handler = async(req: Request, res: Response) => {
 
   
     const { responseGenerator } = res;
     const { existsQuery } = req.body;
 
     if(!existsQuery){
-        const [error, data] = await model.order.order.getAllOrders();
+        const [error, data] = await model.customer.customer.getAllCustomers();
         if(error != ERROR.NO_ERROR){
             responseGenerator.prebuild().send();
             return;
         } 
-        responseGenerator.message("Order Data").data(data).send();
+        responseGenerator.message("Customer Data").data(data).send();
         return;
     }
     
     const { query } = req.body;
     const key = Object.keys(query).pop() as string;
     const value = Object.values(query).pop() as string;
-    const [error, data] = await model.order.order.getSortedOrdersByQuery(key, value);
+    const [error, data] = await model.customer.customer.getSortedCustomersByQuery(key, value);
 
     if(error === ERROR.NO_ERROR){
         return responseGenerator.status.OK().
-                                message("Order Data").
+                                message("Customer Data").
                                 data(data).
                                 send();
     }
 
     if(error === ERROR.NOT_FOUND){
         return responseGenerator.status.NOT_FOUND().
-                                message("No Order Found").
+                                message("No Customer Found").
                                 send();
     }
     responseGenerator.prebuild().send();
 }
 
 
-export default [validateInput, validateQuery as EHandler, getOrderDetails as EHandler];
+export default [validateInput, validateQuery as EHandler, getCustomerDetails as EHandler];
+

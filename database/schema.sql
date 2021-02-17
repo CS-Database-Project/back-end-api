@@ -93,7 +93,6 @@ CREATE TABLE IF NOT EXISTS product_custom_attribute(
 );
 
 
-
 CREATE TABLE IF NOT EXISTS product_review(
     review_id TEXT PRIMARY KEY,
     customer_id TEXT NOT NULL,
