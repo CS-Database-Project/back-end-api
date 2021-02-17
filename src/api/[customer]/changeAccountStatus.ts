@@ -1,4 +1,3 @@
-
 import { model } from '../../model';
 import { ERROR } from '../../model/ERROR';
 import { Request, Response,Handler, EHandler } from '../../utilities/types';
@@ -10,21 +9,21 @@ import { inputValidator, body } from '../../utilities/validation/inputValidator'
  */
 
 const validator = inputValidator(
-    body("userId").exists().isUUID().withMessage("User Id must be valid..."),
+    body("customerId").exists().isUUID().withMessage("Customer Id must be valid..."),
     body("activeStatus").exists().isBoolean().withMessage("Active Status must be a boolean...")
 );
 
 /**
  * STEP 2
- *  Change Account Active Status of a User
+ *  Change Account Active Status of a Customer
  */
 
 const changeAccountStatus:Handler = async(req:Request, res:Response) => {
 
     const { responseGenerator } = res;
-    const { userId, activeStatus } = req.body;
+    const { customerId, activeStatus } = req.body;
 
-    const error = await model.user.userAccount.changeAccountStatus(userId, activeStatus);
+    const error = await model.customer.customerAccount.changeAccountStatus(customerId, activeStatus);
 
     if( error === ERROR.NO_ERROR){
         return responseGenerator.status.OK().
