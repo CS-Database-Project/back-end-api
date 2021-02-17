@@ -25,6 +25,7 @@ import { CourierModel } from './order/courior';
 import { ProductModel } from './product/product';
 import { ProductVariantModel } from './product/product_variant';
 import { ProductReviewModel } from './product/product_review';
+import { CustomAttributeModel } from './product/custom_attribute';
 import { ProductCustomAttributeModel } from './product/product_custom_attribute';
 import { ProductCategoryModel } from './product/product_category';
 import { CategoryModel } from './product/category/category';
@@ -56,6 +57,7 @@ export const model = {
         product: ProductModel,
         productVariant: ProductVariantModel,
         review: ProductReviewModel,
+        customAtrribute:CustomAttributeModel,
         productCustomAttribute:ProductCustomAttributeModel,
         productCategory: ProductCategoryModel,
         category: CategoryModel,
