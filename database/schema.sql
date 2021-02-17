@@ -38,8 +38,8 @@ CREATE TABLE IF NOT EXISTS user_account(
     user_id TEXT PRIMARY KEY,
     username TEXT NOT NULL UNIQUE,
     password TEXT NOT NULL,
-    usertype TEXT NOT NULL,
     active_status boolean DEFAULT true,
+    usertype TEXT NOT NULL,
     FOREIGN KEY (user_id)
     REFERENCES user_details(user_id)
 );
@@ -91,7 +91,6 @@ CREATE TABLE IF NOT EXISTS product_custom_attribute(
     FOREIGN KEY (custom_attribute_id)
     REFERENCES custom_attribute(custom_attribute_id)
 );
-
 
 
 CREATE TABLE IF NOT EXISTS product_review(

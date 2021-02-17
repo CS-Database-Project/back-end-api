@@ -5,7 +5,7 @@ export interface Request extends ERequest{
 
     user: {
         userId: string,
-        userType: "Administrator" | "Regular"
+        userType: 'Administrator' | 'Regular'
         firstName: string,
         lastName: string,
         email: string,

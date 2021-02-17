@@ -73,3 +73,4 @@ const placeOrder:Handler = async(req: Request, res: Response) => {
 }
 
 export default [shippingValidator, paymentValidator, placeOrder as EHandler];
+

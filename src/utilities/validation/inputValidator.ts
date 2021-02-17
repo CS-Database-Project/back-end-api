@@ -8,6 +8,7 @@ const generateValidationResult: Handler = (req, res, next ) => {
     if(!errors.isEmpty()) 
         responseGenerator.status.
                          BAD_REQUEST().
+                         data(errors).
                          message("Invalid Request...").
                          send();
     next();

@@ -53,8 +53,8 @@ export async function insert(table:string, data: any){
 export async function update(table:string, data:any, key:string, value:string){
     const columns: string[] = Object.keys(convertSnakeCaseDeep(data)); 
     const values:string[] = Object.values(data);
-    const statement = `UPDATE ${table} SET ${parseSetters(columns)} WHERE ${convertSnakeCase(key)}=$${columns.length + 1};`;
-    return await query(statement, [...values, value], false);
+    const statement = `UPDATE ${table} SET ${parseSetters(columns)} WHERE ${convertSnakeCase(key)}=$${columns.length + 1} RETURNING *;`;
+    return await query(statement, [...values, value], true);
 }
 
 export async function deleteData(table:string, key:string, value:string){
