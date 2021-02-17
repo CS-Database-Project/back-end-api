@@ -1,9 +1,9 @@
 import { ERROR } from '../ERROR';
-import { find, insert, update } from '../queryTool';
+import { find, insert, update ,deleteData} from '../queryTool';
 
 export interface Courier{
     courierId:string,
-    courierName:string,
+    name:string,
 }
 
 export class CourierModel{
@@ -23,6 +23,11 @@ export class CourierModel{
     static async updateCourier(CourierId: string, CourierDetails: Courier):Promise<[ERROR, Courier[]]>{
         const [error, data] = await update(this.tableName, CourierDetails, "courier_id", CourierId);
         return [error as ERROR, data as Courier[]];
+    }
+
+    static async deleteCourier(id:string){
+        const query= deleteData(this.tableName,'courier_id',id);
+        return;
     }
 
 }
