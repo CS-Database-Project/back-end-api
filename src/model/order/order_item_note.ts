@@ -2,9 +2,9 @@ import { ERROR } from '../ERROR';
 import { find, insert } from '../queryTool';
 
 export interface OrderItemNote{
-    noteId:string,
-    courierId:string,
+    orderId:string,
     productId:string,
+    productVariant:string,
     note:string
 }
 
