@@ -1,11 +1,6 @@
-<<<<<<< HEAD
-import { find, query, transaction } from '../../queryTool';
-import { ERROR } from '../../ERROR';
-=======
 import { find, query, transaction , deleteData,select} from '../../queryTool';
 import { ERROR } from '../../ERROR';
 import {CategoryModel} from './category'
->>>>>>> 6fb5ec12f9b2d27988b082cefff577ff91e95102
 
 export interface SubCategory{
     subCategoryId:string,
