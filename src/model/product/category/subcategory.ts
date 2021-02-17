@@ -1,7 +1,7 @@
+
 import { find, query, transaction , deleteData,select} from '../../queryTool';
 import { ERROR } from '../../ERROR';
 import {CategoryModel} from './category'
-
 
 export interface SubCategory{
     subCategoryId:string,

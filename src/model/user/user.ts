@@ -25,11 +25,11 @@ interface UserPayload{
     address:string,
     city:string,
     state:string,
-    usertype: "Admin"|"Operator"
+    usertype: "Administrator"
 }
 
 export class UserModel{
-    static tableName = 'user';
+    static tableName = 'user_details';
 
     static async addUserEntry(userData :User, userAccountData :UserAccount){
         const query1 = `INSERT INTO ${this.tableName}(user_id, first_name, last_name, birth_date,email, phone,address,city,state) VALUES ($1,$2,$3,$4,$5,$6,$7,$8, $9)`;
