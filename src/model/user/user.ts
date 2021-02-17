@@ -1,7 +1,8 @@
-import { find, query, transaction } from '../queryTool';
+import { find, query, transaction, update } from '../queryTool';
 import { UserAccount, UserAccountModel } from './user_account';
 import { generateToken } from './../../utilities/token';
 import { ERROR } from '../ERROR';
+import { convertSnakeCase } from './../../utilities/snakeCase';
 
 export interface User{
     userId:string,
@@ -55,6 +56,23 @@ export class UserModel{
     static async findByUserById(userId: string): Promise<[ERROR, User[]]> {
         const [error, data] = await find(this.tableName, [], 'user_id', userId);
         return [error as ERROR, data as User[]];
+    }
+
+    static async getAllUsers(): Promise<[ERROR, any]> {
+        const statement = `SELECT ${this.tableName}.*,${UserAccountModel.tableName}.usertype, ${UserAccountModel.tableName}.username FROM ${this.tableName} JOIN ${UserAccountModel.tableName} USING(user_id);`
+        const [error, data] = await query(statement, [], true);
+        return [error as ERROR, data];
+    }
+
+    static async getSortedUsersByQuery(key:string, value:string) {
+        const statement = `SELECT * FROM ${this.tableName} JOIN ${UserAccountModel.tableName} USING(user_id) WHERE ${convertSnakeCase(key)}=$1;`
+        const [error, data] = await query(statement, [value], true);
+        return [error as ERROR, data];
+    }
+
+    static async updateUserDetails(userData: User){
+        const [error, data] = await update(this.tableName, userData, 'userId', userData.userId);
+        return error; 
     }
 
     static generateToken(userPayload: UserPayload){
