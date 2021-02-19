@@ -26,8 +26,8 @@ export class CourierModel{
     }
 
     static async deleteCourier(id:string){
-        const query= deleteData(this.tableName,'courier_id',id);
-        return;
+        const [error,data]=await deleteData(this.tableName,'courier_id',id);
+        return [error as ERROR,data];
     }
 
 }

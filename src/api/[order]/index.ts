@@ -9,17 +9,12 @@ import viewOrder from './viewOrder';
 
 const orderRouter = Router();
 
-orderRouter.post('/placeOrder',placeOrder);
-orderRouter.post('/orderItemNote',orderItemNote);
-orderRouter.put('/updateOrder/:id', updateOrderStatus);
-orderRouter.get('/viewOrder*?', viewOrder);
-orderRouter.post('/addCourier', addCourier);
-orderRouter.delete('/deleteCourier/:id', deleteCourier);
-
-
-
-
-
+orderRouter.post('/place-order',placeOrder);
+orderRouter.post('/order-item-note',orderItemNote);
+orderRouter.post('/add-courier', addCourier);
+orderRouter.put('/update-order-status/:orderId', updateOrderStatus);
+orderRouter.get('/view-order*?', viewOrder);
+orderRouter.delete('/delete-courier/:courierId', deleteCourier);
 
 
 export default orderRouter;
