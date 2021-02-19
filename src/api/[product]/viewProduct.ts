@@ -13,16 +13,32 @@ const viewProduct: Handler = async (req:Request, res: Response)=>{
 
     const {responseGenerator} = res;
 
-    const result = await model.product.product.viewProduct();
-    if(result[0] === ERROR.NO_ERROR) {
+    const [error,data] = await model.product.product.viewProduct();
+    console.log(error);
+    console.log(data);
+    if(error === ERROR.NO_ERROR) {
         return responseGenerator.
                 status.
                 OK().
-                data(result[1]).
+                data(data).
                 send();
     }
+
+    if(error === ERROR.NOT_FOUND) {
+        return responseGenerator.
+                status.
+                OK().
+                data([]).
+                message("There is no data in the table").
+                send();
+    }
+
+
+
     
     responseGenerator.prebuild().send();
+
+
 
 
 }

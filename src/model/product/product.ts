@@ -20,11 +20,10 @@ export class ProductModel{
 
     static async viewProduct(){
         //const query= select(this.tableName,['product_id','title','sku','weight','description']);
-        const statement= `SELECT ${this.tableName}.*,${ProductVariantModel.tableName}.*,${ProductCategoryModel.tableName}.*,${CategoryModel.tableName}.*,${ProductReviewModel.tableName}.* FROM ${this.tableName} 
-                          JOIN ${ProductVariantModel.tableName} ON ${this.tableName}.product_id=${ProductVariantModel.tableName}.product_id
-                          JOIN ${ProductCategoryModel.tableName} ON ${this.tableName}.product_id=${ProductCategoryModel.tableName}.product_id
-                          JOIN ${CategoryModel.tableName} ON ${ProductCategoryModel.tableName}.category_id = ${CategoryModel.tableName}.category_id
-                          JOIN ${ProductReviewModel.tableName} ON ${this.tableName}.product_id = ${ProductReviewModel.tableName}.product_id`;
+        const statement= `SELECT * FROM ${this.tableName} 
+                          JOIN ${ProductVariantModel.tableName} USING (product_id)
+                          JOIN ${ProductCategoryModel.tableName} USING (product_id)
+                          `;
         const [error, data] = await query(statement, [], true);
         return [error as ERROR, data];
     }
