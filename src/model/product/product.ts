@@ -23,7 +23,6 @@ export class ProductModel{
         const statement= `SELECT * FROM ${this.tableName} 
                           JOIN ${ProductVariantModel.tableName} USING (product_id)
                           JOIN ${ProductCategoryModel.tableName} USING (product_id)
-                          `;
         const [error, data] = await query(statement, [], true);
         return [error as ERROR, data];
     }
