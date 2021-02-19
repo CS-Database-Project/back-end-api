@@ -22,9 +22,9 @@ export class ProductCustomAttributeModel{
         return error;
     }
 
-    static deleteProductCustomAttribute(id:string){
-        const query= deleteData(this.tableName,'custom_attribute_id',id);
-        return;
+    static async deleteProductCustomAttribute(id:string){
+        const [error,data]= await deleteData(this.tableName,'custom_attribute_id',id);
+        return [error as ERROR,data];
     }
 
 

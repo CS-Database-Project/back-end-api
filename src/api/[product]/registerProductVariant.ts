@@ -1,4 +1,4 @@
-import { body, inputValidator } from '../../utilities/validation/inputValidator';
+import { body, inputValidator,param } from '../../utilities/validation/inputValidator';
 import { Handler, EHandler } from '../../utilities/types'
 import { model } from '../../model/index';
 import { ERROR } from '../../model/ERROR';
@@ -13,7 +13,8 @@ import { Request, Response } from '../../utilities/types';
 const validator = inputValidator(
     body('variantName').exists().withMessage("Variant Name is required..."),
     body('unitPrice').exists().withMessage("Unit Price is required..."),
-    body('countInStock').exists().withMessage("Count in stock  is required...")
+    body('countInStock').exists().withMessage("Count in stock  is required..."),
+    param('productId').isUUID().withMessage("Product Id shoud be a valid UUID...")
 
 );
 
@@ -26,7 +27,7 @@ const registerProductVariant: Handler = async (req:Request, res: Response)=>{
 
     const {responseGenerator} = res;
     const {variantName,unitPrice,countInStock} = req.body;
-    const productId = req.params.id;
+    const productId = req.params.productId;
 
     const productVariantData = {
         productId,

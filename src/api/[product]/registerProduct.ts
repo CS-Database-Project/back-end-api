@@ -1,4 +1,4 @@
-import { body, inputValidator } from '../../utilities/validation/inputValidator';
+import { body, inputValidator ,param} from '../../utilities/validation/inputValidator';
 import { Handler, EHandler } from '../../utilities/types'
 import { model } from '../../model/index';
 import { ERROR } from '../../model/ERROR';
@@ -18,6 +18,7 @@ const validator = inputValidator(
     body('variantName').exists().withMessage("Variant Name is required..."),
     body('unitPrice').exists().withMessage("Unit Price is required..."),
     body('countInStock').exists().withMessage("Count in stock  is required...")
+
 
 );
 

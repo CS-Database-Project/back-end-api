@@ -1,4 +1,4 @@
-import { body, inputValidator } from '../../utilities/validation/inputValidator';
+import { body, inputValidator,param } from '../../utilities/validation/inputValidator';
 import { Handler, EHandler } from '../../utilities/types'
 import { model } from '../../model/index';
 import { ERROR } from '../../model/ERROR';
@@ -12,7 +12,8 @@ import { Request, Response } from '../../utilities/types';
 
 const validator = inputValidator(
     body('customAttributeId').exists().withMessage("Name is required..."),
-    body('value').exists().withMessage("Data Type is required...")
+    body('value').exists().withMessage("Data Type is required..."),
+    param('productId').isUUID().withMessage("Product Id shoud be a valid UUID...")
 
 );
 
@@ -26,7 +27,7 @@ const registerProductCustomAttribute: Handler = async (req:Request, res: Respons
     const {responseGenerator} = res;
     const {value,customAttributeId} = req.body;
 
-    const productId=req.params.id;
+    const productId=req.params.productId;
 
     const productCustomAttributeData = {
         productId,

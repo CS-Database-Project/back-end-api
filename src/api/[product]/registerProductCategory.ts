@@ -1,4 +1,4 @@
-import { body, inputValidator } from '../../utilities/validation/inputValidator';
+import { body, inputValidator,param } from '../../utilities/validation/inputValidator';
 import { Handler, EHandler } from '../../utilities/types'
 import { model } from '../../model/index';
 import { ERROR } from '../../model/ERROR';
@@ -12,6 +12,7 @@ import { Request, Response } from '../../utilities/types';
 
 const validator = inputValidator(
     body('categoryId').exists().withMessage("Category Id is required..."),
+    param('productId').isUUID().withMessage("Product Id shoud be a valid UUID...")
 );
 
 
@@ -23,7 +24,7 @@ const registerProductCategory: Handler = async (req:Request, res: Response)=>{
 
     const {responseGenerator} = res;
     const {categoryId} = req.body;
-    const productId = req.params.id;
+    const productId = req.params.productId;
 
     const productCategoryData = {
         productId,
