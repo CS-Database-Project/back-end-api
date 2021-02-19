@@ -11,8 +11,8 @@ export class ProductCategoryModel{
     static tableName = 'product_category';
 
     static async viewProductCategory(){
-        const query= select(this.tableName,['product_id','category_id']);
-        return query;
+        const [error, data]= await select(this.tableName,['product_id','category_id']);
+        return [error as ERROR, data];
     }
 
     static async addProductCategory(productCategoryData: ProductCategory){
@@ -27,8 +27,8 @@ export class ProductCategoryModel{
     }
 
     static async deleteProductCategory(id:string){
-        const query= deleteData(this.tableName,'category_id',id);
-        return;
+        const [error, data]= await deleteData(this.tableName,'category_id',id);
+        return [error as ERROR, data];
     }
 
 

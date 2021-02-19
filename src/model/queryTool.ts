@@ -58,8 +58,8 @@ export async function update(table:string, data:any, key:string, value:string){
 }
 
 export async function deleteData(table:string, key:string, value:string){
-    const statement = `DELETE FROM ${table} WHERE ${convertSnakeCase(key)}=$1;`;
-    return await query(statement, [value], false);
+    const statement = `DELETE FROM ${table} WHERE ${convertSnakeCase(key)}=$1 RETURNING *;`;
+    return await query(statement, [value], true);
 }
 
 function identifyError(e:any) {

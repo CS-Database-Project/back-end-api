@@ -13,8 +13,8 @@ export class ProductReviewModel{
     static tableName = 'product_review';
 
     static async viewProductReview(){
-        const query= select(this.tableName,['review_id','customer_id','product_id','rating','description']);
-        return query;
+        const [error,data]= await select(this.tableName,['review_id','customer_id','product_id','rating','description']);
+        return [error as ERROR,data];
     }
 
     static async addProductReview(productReviewData :ProductReview){

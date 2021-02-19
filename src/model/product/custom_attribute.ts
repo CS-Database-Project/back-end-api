@@ -22,10 +22,20 @@ export class CustomAttributeModel{
         return error;
     }
 
-    static deleteCustomAttribute(id:string){
-        const query1= deleteData(this.tableName,'custom_attribute_id',id);
-        const query2= deleteData(ProductCustomAttributeModel.tableName,'custom_attribute_id',id);
-        return;
+    static async deleteCustomAttribute(id:string){
+        //const [error1,data1]= await deleteData(this.tableName,'custom_attribute_id',id);
+        //const [error2,data2]= await deleteData(ProductCustomAttributeModel.tableName,'custom_attribute_id',id);
+
+        const query1 = `DELETE FROM ${this.tableName} WHERE custom_attribute_id=$1`;
+        const query2 = `DELETE FROM ${ProductCustomAttributeModel.tableName} WHERE custom_attribute_id=$1`;
+
+        const args1= [id];
+        const args2 =[id];
+
+        const error = transaction([query1,query2],[args1,args2])
+        return error;
+
+        //return [error1 as ERROR, data1, data2];
     }
 
     static async findByCustomAttributeById(customAttributeId: string): Promise<[ERROR, CustomAttribute[]]> {

@@ -19,6 +19,7 @@ import productReviewRegister from './registerProductReview';
 
 import categoryView from './viewCategory';
 import mainCategoryRegister from './registerMainCategory';
+import categoryUpdate from './updateCategory';
 import categoryDelete from './deleteCategory';
 
 import subCategoryView from './viewSubCategory';
@@ -35,36 +36,37 @@ import productCustomAttributeDelete from './deleteProductCustomAttribute';
 const productRouter = Router();
 
 
-productRouter.get('/product_view',productView);
-productRouter.post('/product_register',productRegister);
-productRouter.put('/product_update/:id',productUpdate);  //params -> product_id
-productRouter.delete('/product_delete/:id',productDelete);  //params -> product_id
+productRouter.get('/product-view',productView);
+productRouter.post('/product-register',productRegister);
+productRouter.put('/product-update/:productId',productUpdate);  //params -> product_id
+productRouter.delete('/product-delete/:productId',productDelete);  //params -> product_id
 
-productRouter.get('/product_category_view',productCategoryView);
-productRouter.post('/product_category_register/:id',productCategoryRegister);  //params -> product_id
-productRouter.delete('/product_category_delete/:id',productCategoryDelete);  //params -> category_id
+productRouter.get('/product-category_view',productCategoryView);
+productRouter.post('/product-category-register/:productId',productCategoryRegister);  //params -> product_id
+//productRouter.delete('/product_category_delete/:categoryId',productCategoryDelete);  //params -> category_id
 
-productRouter.get('/product_variant_view',productVariantView);
-productRouter.post('/product_variant_register/:id',productVariantRegister);  //params -> product_id
-productRouter.put('/product_variant_update/:id',productVariantUpdate);  //params -> product_id
-productRouter.delete('/product_variant_delete/:id',productVariantDelete); //params -> product_id
+productRouter.get('/product-variant-view',productVariantView);
+productRouter.post('/product-variant-register/:productId',productVariantRegister);  //params -> product_id
+productRouter.put('/product-variant-update/:productId',productVariantUpdate);  //params -> variant
+productRouter.delete('/product-variant-delete/:productId',productVariantDelete); //params -> variant
 
-productRouter.get('/product_review_view',productReviewView);
-productRouter.post('/product_review_register/:id',productReviewRegister);  //params -> product_id
+productRouter.get('/product-review-view',productReviewView);
+productRouter.post('/product-review-register/:productId',productReviewRegister);  //params -> product_id
 
-productRouter.get('/category_view',categoryView);
-productRouter.post('/main_category_register',mainCategoryRegister);
-productRouter.delete('/category_delete/:id',categoryDelete);  //params -> category_id
+productRouter.get('/category-view',categoryView);
+productRouter.post('/main-category-register',mainCategoryRegister);
+productRouter.put('/category-update/:categoryId',categoryUpdate);  //params -> category_id
+//productRouter.delete('/category_delete/:categoryId',categoryDelete);  //params -> category_id
 
-productRouter.get('/sub_category_view',subCategoryView);
-productRouter.post('/sub_category_register',subCategoryRegister);
-productRouter.delete('/sub_category_delete/:id',subCategoryDelete);  //params -> sub_category_id
+productRouter.get('/sub-category-view',subCategoryView);
+productRouter.post('/sub-category-register',subCategoryRegister);
+//productRouter.delete('/sub_category_delete/:subCategoryId',subCategoryDelete);  //params -> sub_category_id
 
-productRouter.post('/custom_attribute_register',customAttributeRegister);
-productRouter.delete('/custom_attribute_delete/:id',customAttributeDelete);  //params -> custom_attribute_id
+productRouter.post('/custom-attribute-register',customAttributeRegister);
+productRouter.delete('/custom-attribute-delete/:customAttributeId',customAttributeDelete);  //params -> custom_attribute_id
 
-productRouter.post('/product_custom_attribute_register/:id',productCustomAttributeRegister); //params -> product_id
-productRouter.delete('/product_custom_attribute_delete/:id',productCustomAttributeDelete);  //params -> custom_attribute_id
+productRouter.post('/product-custom-attribute-register/:productId',productCustomAttributeRegister); //params -> product_id
+productRouter.delete('/product-custom-attribute-delete/:customAttributeId',productCustomAttributeDelete);  //params -> custom_attribute_id
 
 
 export default productRouter;

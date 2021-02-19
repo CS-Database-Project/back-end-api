@@ -1,4 +1,4 @@
-import { body, inputValidator } from '../../utilities/validation/inputValidator';
+import { body, inputValidator,param } from '../../utilities/validation/inputValidator';
 import { Handler, EHandler } from '../../utilities/types'
 import { model } from '../../model/index';
 import { ERROR } from '../../model/ERROR';
@@ -13,7 +13,8 @@ import { Request, Response } from '../../utilities/types';
 const validator = inputValidator(
     body('customerId').exists().withMessage("Customer Id is required..."),
     body('rating').exists().withMessage("Rating is required..."),
-    body('description').exists().withMessage("Description is required...")
+    body('description').exists().withMessage("Description is required..."),
+    param('productId').isUUID().withMessage("Product Id shoud be a valid UUID..."),
 
 );
 
@@ -26,7 +27,7 @@ const registerProductReview: Handler = async (req:Request, res: Response)=>{
 
     const {responseGenerator} = res;
     const {customerId,rating,description} = req.body;
-    const productId = req.params.id;
+    const productId = req.params.productId;
 
     const reviewId= UUID();
 

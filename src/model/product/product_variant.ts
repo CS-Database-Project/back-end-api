@@ -19,8 +19,8 @@ export class ProductVariantModel{
     static tableName = 'product_variant';
 
     static async viewProductVariant(){
-        const query= select(this.tableName,['product_id','variant_name','unit_price','count_in_stock']);
-        return query;
+        const [error,data]= await select(this.tableName,['product_id','variant_name','unit_price','count_in_stock']);
+        return [error as ERROR,data];
     }
 
     static async addProductVariant(productVariantData :ProductVariant){
@@ -34,14 +34,14 @@ export class ProductVariantModel{
         return error;
     }
 
-    static deleteProductVariant(id:string){
-        const query= deleteData(this.tableName,'variant_name',id);
-        return;
+    static async deleteProductVariant(id:string){
+        const [error, data]= await deleteData(this.tableName,'variant_name',id);
+        return [error as ERROR, data];
     }
 
     static async updateProductVariant(productVariantData:ProductVariantForUpdate,id:string){
-        const query=update(this.tableName,productVariantData,'variant_name',id);
-        return;
+        const [error, data]=await update(this.tableName,productVariantData,'variant_name',id);
+        return [error as ERROR, data];
     }
 
     static async findByProductVariantById(productId: string): Promise<[ERROR, ProductVariant[]]> {
