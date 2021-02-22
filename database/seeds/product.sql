@@ -76,6 +76,19 @@ INSERT INTO product_variant(
 )
 VALUES(
   '6c1474f5-4df7-4942-9afc-73a644d8cbd3',
+  'default',
+  599.99,
+  7
+);
+
+INSERT INTO product_variant(
+  product_id,
+  variant_name,
+  unit_price,
+  count_in_stock
+)
+VALUES(
+  '6c1474f5-4df7-4942-9afc-73a644d8cbd3',
   '128 GB Memory',
   599.99,
   7
