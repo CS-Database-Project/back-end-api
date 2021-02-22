@@ -303,7 +303,7 @@ INSERT INTO product_category(
 
 )
 VALUES(
-  'f5afcb4a-bcc2-473a-9376-521dff4cc3a2',
+  '9b1f4306-ae7f-4cee-8ade-768297efc949',
   'ec2fdb60-a006-492a-bb00-22beffde1e80'
 );
 
@@ -313,7 +313,7 @@ INSERT INTO product_category(
 
 )
 VALUES(
-  'f5afcb4a-bcc2-473a-9376-521dff4cc3a2',
+  '9b1f4306-ae7f-4cee-8ade-768297efc949',
   '2c1ce3ec-c47a-4bed-9443-2354a3befdb6'
 );
 
