@@ -14,9 +14,16 @@ export interface UpdateCategory{
 export class CategoryModel{
     static tableName = 'category';
 
-    static async viewCategory(){
-        const [error,data]=  await select(this.tableName,['category_id','name']);
-        return [error as ERROR,data];
+    static async getAllCategories(){
+        const statement =  `SELECT 
+	                            json_build_object('categoryId', category_id,'name', name) AS category,
+	                            json_agg((SELECT json_build_object('categoryId', category_id, 'name', name) FROM category WHERE category_id = sc.sub_category_id)) AS sub_categories
+                            FROM category c
+                            LEFT JOIN sub_category sc ON c.category_id=sc.main_category_id
+                            WHERE category_id NOT IN (SELECT sub_category_id FROM sub_category)
+                            GROUP BY category_id`
+        const [error, data] = await query(statement, [], true);
+        return [error as ERROR, data];
     }
 
     static async addCategory(categoryData :Category){

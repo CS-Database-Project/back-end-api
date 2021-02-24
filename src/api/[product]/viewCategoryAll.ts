@@ -13,12 +13,21 @@ const viewCategory: Handler = async (req:Request, res: Response)=>{
 
     const {responseGenerator} = res;
 
-    const result = await model.product.category.viewCategory();
-    if(result[0] === ERROR.NO_ERROR) {
+    const [error, data] = await model.product.category.getAllCategories();
+    if(error === ERROR.NO_ERROR) {
         return responseGenerator.
                 status.
                 OK().
-                data(result[1]).
+                data(data).
+                send();
+    }
+
+    if(error === ERROR.NOT_FOUND){
+        return responseGenerator.
+                status.
+                OK().
+                message("No Categories Found").
+                data({}).
                 send();
     }
     

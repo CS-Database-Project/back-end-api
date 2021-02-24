@@ -17,7 +17,7 @@ import productVariantDelete from './deleteProductVariant';
 import productReviewView from './viewProductReview';
 import productReviewRegister from './registerProductReview';
 
-import categoryView from './viewCategory';
+import categoryView from './viewCategoryAll';
 import mainCategoryRegister from './registerMainCategory';
 import categoryUpdate from './updateCategory';
 import categoryDelete from './deleteCategory';

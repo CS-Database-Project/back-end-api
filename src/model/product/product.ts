@@ -4,6 +4,7 @@ import {ProductCategoryModel} from './product_category';
 import {CategoryModel} from './category/category';
 import {ProductReviewModel} from './product_review';
 import { ERROR } from '../ERROR';
+import { CustomerModel } from '../customer/customer';
 
 
 
@@ -18,11 +19,33 @@ export interface Product{
 export class ProductModel{
     static tableName = 'product';
 
-    static async viewProduct(){
-        //const query= select(this.tableName,['product_id','title','sku','weight','description']);
-        const statement= `SELECT * FROM ${this.tableName} 
-                          JOIN ${ProductVariantModel.tableName} USING (product_id)
-                          JOIN ${ProductCategoryModel.tableName} USING (product_id)
+    static async getProductDetails(){
+        const statement=   `SELECT 
+	                            product_id,
+	                            title,
+                                p.description,
+                                (SELECT 
+                                    COALESCE(json_agg(json_build_object('rating', rating,'description' ,pr.description)) FILTER (WHERE pr.rating IS NOT NULL), '[]') AS reviews
+                                    FROM ${this.tableName}
+                                LEFT JOIN ${ProductReviewModel.tableName} pr USING(product_id)
+                                LEFT JOIN ${CustomerModel.tableName} USING(customer_id)
+                                WHERE product_id = p.product_id
+                                GROUP BY product_id) AS reviews,
+                                (SELECT 
+                                    json_agg(category_id)
+                                FROM ${this.tableName} 
+                                LEFT JOIN ${ProductCategoryModel.tableName} USING(product_id)
+                                WHERE product_id=p.product_id
+                                GROUP BY product_id
+                                ) AS categories,
+                                (SELECT 
+                                    json_agg(json_build_object('name', variant_name, 'unitPrice', unit_price, 'countInStock',count_in_stock))
+                                FROM ${this.tableName}
+                                LEFT JOIN ${ProductVariantModel.tableName} USING(product_id)
+                                WHERE product_id=p.product_id
+                                GROUP BY product_id
+                                ) AS variants
+                            FROM ${this.tableName} p`;
         const [error, data] = await query(statement, [], true);
         return [error as ERROR, data];
     }
