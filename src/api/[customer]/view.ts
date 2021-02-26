@@ -60,7 +60,7 @@ const getCustomerDetails: Handler = async(req: Request, res: Response) => {
             responseGenerator.prebuild().send();
             return;
         } 
-        responseGenerator.message("Customer Data").data(data).send();
+        responseGenerator.status.OK().message("Customer Data").data(data).send();
         return;
     }
     
