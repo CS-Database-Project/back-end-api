@@ -57,7 +57,14 @@ export class UserModel{
 
 
     static async findByUserById(userId: string): Promise<[ERROR, User[]]> {
-        const [error, data] = await find(this.tableName, [], 'user_id', userId);
+        const statement = `SELECT 
+                                ${this.tableName}.*, 
+                                ${UserAccountModel.tableName}.usertype, 
+                                ${UserAccountModel.tableName}.active_status 
+                            FROM ${this.tableName}
+                            JOIN ${UserAccountModel.tableName} USING(user_id)
+                            WHERE user_id='${userId}';`
+        const [error, data] = await query(statement, [], true);
         return [error as ERROR, data as User[]];
     }
 
