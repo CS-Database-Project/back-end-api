@@ -34,7 +34,7 @@ export class UserModel{
 
     static async addUserEntry(userData :User, userAccountData :UserAccount){
         const query1 = `INSERT INTO ${this.tableName}(user_id, first_name, last_name, birth_date,email, phone,address,city,state) VALUES ($1,$2,$3,$4,$5,$6,$7,$8, $9)`;
-        const query2 = `INSERT INTO ${UserAccountModel.tableName}(user_id,username,password) VALUES ($1,$2,$3)`;
+        const query2 = `INSERT INTO ${UserAccountModel.tableName}(user_id,username,password, active_status, usertype) VALUES ($1,$2,$3,$4,$5)`;
         const args1= [userData.userId,
                       userData.firstName,
                       userData.lastName,
@@ -47,7 +47,10 @@ export class UserModel{
 
         const args2 = [userAccountData.userId,
                        userAccountData.username, 
-                       userAccountData.password];
+                       userAccountData.password,
+                       userAccountData.activeStatus ? 'true' : 'false',
+                       userAccountData.usertype
+                    ];
         const error = await transaction([query1, query2],[args1, args2]);
         return error;
     }
