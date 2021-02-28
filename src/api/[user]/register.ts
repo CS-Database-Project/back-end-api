@@ -54,7 +54,7 @@ const registeruser:Handler = async(req: Request, res: Response) => {
         username,
         password,
         activeStatus: true,
-        usertype: "Administrator"
+        usertype: "Operator"
     };
 
     const error = await model.user.user.addUserEntry(userData, userAccountData);
