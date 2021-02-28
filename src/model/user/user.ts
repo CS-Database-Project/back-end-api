@@ -69,7 +69,7 @@ export class UserModel{
     }
 
     static async getAllUsers(): Promise<[ERROR, any]> {
-        const statement = `SELECT ${this.tableName}.*,${UserAccountModel.tableName}.usertype, ${UserAccountModel.tableName}.username FROM ${this.tableName} JOIN ${UserAccountModel.tableName} USING(user_id);`
+        const statement = `SELECT ${this.tableName}.*,${UserAccountModel.tableName}.usertype, ${UserAccountModel.tableName}.username, ${UserAccountModel.tableName}.active_status FROM ${this.tableName} JOIN ${UserAccountModel.tableName} USING(user_id);`
         const [error, data] = await query(statement, [], true);
         return [error as ERROR, data];
     }
