@@ -55,6 +55,10 @@ const getOrderDetails: Handler = async(req: Request, res: Response) => {
 
     if(!existsQuery){
         const [error, data] = await model.order.order.getAllOrders();
+
+        if(error === ERROR.NOT_FOUND){
+            responseGenerator.status.OK().message("No Data In Table").data([]).send();
+        }
         if(error != ERROR.NO_ERROR){
             responseGenerator.prebuild().send();
             return;
