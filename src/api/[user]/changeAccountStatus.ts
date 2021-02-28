@@ -28,6 +28,7 @@ const changeAccountStatus:Handler = async(req:Request, res:Response) => {
     if( error === ERROR.NO_ERROR){
         return responseGenerator.status.OK().
                                 message("Successfully Changed...").
+                                data({userId}).
                                 send();
     }
 
