@@ -24,6 +24,8 @@ export class ProductModel{
 	                            product_id,
 	                            title,
                                 p.description,
+                                p.weight,
+                                p.sku,
                                 (SELECT 
                                     COALESCE(json_agg(json_build_object('rating', rating,'description' ,pr.description)) FILTER (WHERE pr.rating IS NOT NULL), '[]') AS reviews
                                     FROM ${this.tableName}
