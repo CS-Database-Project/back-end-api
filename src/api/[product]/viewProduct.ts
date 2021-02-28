@@ -14,6 +14,7 @@ const viewProduct: Handler = async (req:Request, res: Response)=>{
     const {responseGenerator} = res;
 
     const [error,data] = await model.product.product.getProductDetails();
+    
     if(error === ERROR.NO_ERROR) {
         return responseGenerator.
                 status.

@@ -24,7 +24,18 @@ export class OrderModel{
     static tableName='order_details';
 
     static async getAllOrders(): Promise<[ERROR, any]> {
-        const statement = `SELECT ${this.tableName}.*,${OrderItemModel.tableName}.* FROM ${this.tableName} JOIN ${OrderItemModel.tableName} USING(order_id);`
+        const statement = `SELECT 
+        od.order_id,
+        od.customer_id,
+        od.order_date,
+        od.delivery_method,
+        od.order_status_id,
+        od.comments,
+        od.dispatched_date,
+        json_agg(json_build_object('productId',oi.product_id, 'variantName', oi.product_variant, 'quantity', oi.quantity, 'unitPrice', oi.unit_price)) AS items
+    FROM ${this.tableName} od
+    JOIN ${OrderItemModel.tableName} oi USING(order_id)
+    GROUP BY od.order_id;`
         const [error, data] = await query(statement, [], true);
         return [error as ERROR, data];
     }
