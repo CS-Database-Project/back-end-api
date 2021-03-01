@@ -33,4 +33,9 @@ export class UserAccountModel{
         return [error,data];
     }
 
+    static async updateUsertype(userId: string, usertype: string){
+        const [error, data] = await update(this.tableName, { usertype }, 'user_id', userId);
+        return error;
+    }
+
 }
