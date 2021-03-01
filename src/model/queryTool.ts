@@ -3,7 +3,7 @@ import { convertCamelCaseDeep } from '../utilities/camelCase';
 import { convertSnakeCase, convertSnakeCaseDeep } from './../utilities/snakeCase';
 import { ERROR } from './ERROR';
 
-export async function query(statement:string, args: string[], expectsData: boolean){
+export async function query(statement:string, args: any[], expectsData: boolean){
     try{
         const result= await pool.query(statement, args);
         if(expectsData && result.rows.length === 0){
@@ -16,7 +16,7 @@ export async function query(statement:string, args: string[], expectsData: boole
 }
 
 
-export async function transaction(statements:string[], args: string[][]):Promise<any> {
+export async function transaction(statements:string[], args: any[][]):Promise<any> {
     const client = await pool.connect();
 
     try {
