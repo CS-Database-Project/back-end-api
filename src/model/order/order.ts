@@ -32,6 +32,7 @@ export class OrderModel{
         od.order_status_id,
         od.comments,
         od.dispatched_date,
+        od.payment_method_id,
         json_agg(json_build_object('productId',oi.product_id, 'variantName', oi.product_variant, 'quantity', oi.quantity, 'unitPrice', oi.unit_price)) AS items
     FROM ${this.tableName} od
     JOIN ${OrderItemModel.tableName} oi USING(order_id)
