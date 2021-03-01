@@ -4,73 +4,78 @@ import { ERROR } from '../../model/ERROR';
 import { v4 as UUID } from 'uuid';
 import { Request, Response, Handler, EHandler } from '../../utilities/types';
 
-const shippingValidator = inputValidator(
-    body('address').exists().withMessage("Address is required..."),
-    body('city').exists().withMessage("City is required..."),
-    body('postalCode').exists().withMessage("PostalCode is required..."),
-    body('country').exists().withMessage("Country required...")
-);
+const orderDetailsValidator= inputValidator(
+    body('customerId').isUUID().withMessage("Invalid customerID"),
+    // body('orderDate').exists().withMessage("Order date is required"),
+    // body('orderStatusId').exists().withMessage("Order Status Id is required"),
+    // body('deliveryMethod').exists().withMessage("delivery Method is required"),
+    body('products').exists().withMessage('Products require')
+)
 
 const paymentValidator = inputValidator(
-    body('paymentMethod').exists().withMessage("Payment Method is required...")
+    body('paymentMethodId').exists().withMessage("Payment Method is required...")
 )
+
 
 const placeOrder:Handler = async(req: Request, res: Response) => {
     const { responseGenerator } = res;
-    const { address, city, postalCode, country } = req.body;
-    const { customerId, orderDate, orderStatusId, comments, paymentMethodId } = req.body;
-    const {  productId, productVariant, quantity, unitPrice } = req.body;
+    const { customerId/*, orderDate, orderStatusId, comments, dispatchedDate, paymentMethodId , deliveryMethod*/} = req.body;
+    const { products } = req.body;
 
     const orderId = UUID();
 
-    const orderDetails ={
+    const orderDetails={
         orderId,
         customerId,
-        orderDate,
-       // delivery_method,
-        orderStatusId,
-        comments,
-       // dispatchedDate,
-        paymentMethodId,
+        orderDate:new Date(),
+        deliveryMethod:"Deliver",
+        orderStatusId:"1",
+        comments:"",
+        dispatchedDate:new Date(),
+        paymentMethodId:"1"
     }
 
-    const orderItem ={
-        orderId,
-        productId,
-        productVariant,
-        quantity,
-        unitPrice
+
+
+    let orderItemData =[];
+
+    for(let i = 0; i < products.length; i++){
+        const values:string[] = Object.values(products[i]);
+          
+        let productId= values[0];
+        let quantity = values[4];
+        let unitPrice = values[5];
+        let productVariant = values[2];
+
+        let orderItemDetails= {
+          orderId,
+          productId,
+          productVariant,
+          quantity,
+          unitPrice,
+        }
+
+        orderItemData.push(orderItemDetails);
+
     }
 
-    const shippingAddress= {
-        address,
-        city,
-        postalCode,
-        country
-    };
-
-    //const [error, data] = await model.order.order.placeOrder(shippingAddress, orderItem, shippingAddress);
-    //const productData = data[0];
-  /*  if( error != ERROR.NO_ERROR){
+    const [error, data] = await model.order.placeOrder.addOrderDetails(orderDetails ,orderItemData);
+    if( error != ERROR.NO_ERROR){
         responseGenerator.prebuild().send();
-        return;
+        return [error as ERROR];
     }
+
 
     responseGenerator.
     status.OK().
     message("Place Order successful...").
-    data(shippingAddress).
-    send();*/
+    send()
 
-        responseGenerator.
-        status.OK().
-        message("Place Order successful...").
-        data(orderDetails).
-        send();
-    
 
 
 }
 
-export default [shippingValidator, paymentValidator, placeOrder as EHandler];
+
+
+export default [orderDetailsValidator/*, paymentValidator*/,placeOrder as EHandler];
 

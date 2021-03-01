@@ -31,7 +31,7 @@ import customAttributeDelete from './deleteCustomAttribute';
 
 import productCustomAttributeRegister from './registerProductCustomAttribute';
 import productCustomAttributeDelete from './deleteProductCustomAttribute';
-
+import searchResult from './search';
 
 const productRouter = Router();
 
@@ -67,6 +67,7 @@ productRouter.delete('/custom-attribute-delete/:customAttributeId',customAttribu
 
 productRouter.post('/product-custom-attribute-register/:productId',productCustomAttributeRegister); //params -> product_id
 productRouter.delete('/product-custom-attribute-delete/:customAttributeId',productCustomAttributeDelete);  //params -> custom_attribute_id
+productRouter.get('/search/:keyWord',searchResult);
 
 
 export default productRouter;

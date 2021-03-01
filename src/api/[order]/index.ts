@@ -9,7 +9,7 @@ import viewOrder from './viewOrder';
 
 const orderRouter = Router();
 
-orderRouter.post('/place-order',placeOrder);
+orderRouter.post('/placeOrder',placeOrder);
 orderRouter.post('/order-item-note',orderItemNote);
 orderRouter.post('/add-courier', addCourier);
 orderRouter.put('/update-order-status/:orderId', updateOrderStatus);

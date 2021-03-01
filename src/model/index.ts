@@ -30,8 +30,8 @@ import { ProductCustomAttributeModel } from './product/product_custom_attribute'
 import { ProductCategoryModel } from './product/product_category';
 import { CategoryModel } from './product/category/category';
 import { SubCategoryModel } from './product/category/subcategory';
-import { ProductSearchModel} from './product/searchProduct';
 import { User } from './user/user';
+import { PlaceOrderModel } from './order/place_order';
 
 export const model = {
 
@@ -51,7 +51,8 @@ export const model = {
         orderItemNote: OrderItemNoteModel,
         orderStatus: OrderStatusModel,
         orderCourier: OrderCourierModel,
-        courier: CourierModel
+        courier: CourierModel,
+        placeOrder:PlaceOrderModel
     },
 
     product: {
@@ -62,8 +63,7 @@ export const model = {
         productCustomAttribute:ProductCustomAttributeModel,
         productCategory: ProductCategoryModel,
         category: CategoryModel,
-        subCategory: SubCategoryModel,
-        search: ProductSearchModel
+        subCategory: SubCategoryModel
     }
 
 }
