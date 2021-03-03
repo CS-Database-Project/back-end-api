@@ -34,14 +34,26 @@ import productCustomAttributeRegister from './registerProductCustomAttribute';
 import productCustomAttributeDelete from './deleteProductCustomAttribute';
 import searchResult from './search';
 
-var multer  = require('multer')
-var upload = multer({ dest: 'uploads/'})
+var multer  = require('multer');
+const path = require('path');
+
+var storage = multer.diskStorage({
+    destination: function (req:any, file:any, cb:any) {
+        cb(null, './uploads')
+    },
+    filename: function (req:any, file:any, cb:any) {
+        cb(null, req.params.productId + path.extname(file.originalname));
+    }
+})
+
+var upload = multer({ storage: storage })
 
 const productRouter = Router();
 
 
 productRouter.get('/product-view',productView);
-productRouter.post('/product-register',upload.single('productImage'), productRegister);
+productRouter.post('/product-register',productRegister);
+productRouter.post('/product-register-image/:productId',upload.single('productImage'));
 productRouter.put('/product-update/:productId',productUpdate);  //params -> product_id
 productRouter.delete('/product-delete/:productId',productDelete);  //params -> product_id
 

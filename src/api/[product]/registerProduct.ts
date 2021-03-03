@@ -1,9 +1,10 @@
 import { body, inputValidator ,param} from '../../utilities/validation/inputValidator';
-import { Handler, EHandler } from '../../utilities/types'
+import { Handler, EHandler, NextFunction } from '../../utilities/types'
 import { model } from '../../model/index';
 import { ERROR } from '../../model/ERROR';
 import { v4 as UUID } from 'uuid';
 import { Request, Response } from '../../utilities/types';
+import { request } from 'express';
 
 
 /*
@@ -14,12 +15,7 @@ const validator = inputValidator(
     body('title').exists().withMessage("Title is required..."),
     body('sku').exists().withMessage("SKU is required..."),
     body('weight').exists().withMessage("Weight is required..."),
-    body('description').exists().withMessage("Description is required..."),
-    body('variantName').exists().withMessage("Variant Name is required..."),
-    body('unitPrice').exists().withMessage("Unit Price is required..."),
-    body('countInStock').exists().withMessage("Count in stock  is required...")
-
-
+    body('description').exists().withMessage("Description is required...")
 );
 
 
@@ -27,48 +23,45 @@ const validator = inputValidator(
     STEP 2 - Registering a Product
 */
 
-const registerProduct: Handler = async (req:Request, res: Response)=>{
+const registerProduct = async (req:any, res: any, next: NextFunction)=>{
 
     const {responseGenerator} = res;
-    const {title,sku,weight,description,variantName,unitPrice,countInStock} = req.body;
-
-    const productId = UUID();
-
-    const productData={
-        productId,
-        title,
-        sku,
-        weight,
-        description
-    }
-
-    const productVariantData = {
-        productId,
-        variantName,
-        unitPrice,
-        countInStock
-
-    }
-
-    const error = await model.product.product.addProduct(productData,productVariantData);
-    if(error === ERROR.NO_ERROR) {
-        return responseGenerator.
-                status.
-                OK().
-                message("Product Successfully Added...").
-                data(productData).
-                send();
-    }
-    if(error == ERROR.DUPLICATE_ENTRY){
-        return responseGenerator.
-                status.
-                BAD_REQUEST().
-                message("Product Already Exists...").
-                send();
-    }
+  
+    const { title, sku, weight, description, variants, categories, customAttributes } = req.body;
     
-    responseGenerator.prebuild().send();
+    const productId = UUID();
+    
 
+    // const productData={
+    //     productId,
+    //     title,
+    //     sku,
+    //     weight,
+    //     description
+    // };
+
+    // const productVariantData = JSON.parse(variants);
+
+    // const error = await model.product.product.addProduct(productData,productVariantData);
+    // if(error === ERROR.NO_ERROR) {
+    //     return responseGenerator.
+    //             status.
+    //             OK().
+    //             message("Product Successfully Added...").
+    //             data(productData).
+    //             send();
+    // }
+    // if(error == ERROR.DUPLICATE_ENTRY){
+    //     return responseGenerator.
+    //             status.
+    //             BAD_REQUEST().
+    //             message("Product Already Exists...").
+    //             send();
+    // }
+    
+    // responseGenerator.prebuild().send();
+
+    responseGenerator.status.OK().data(productId).message("Success").send();
 
 }
 
