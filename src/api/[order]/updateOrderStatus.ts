@@ -26,6 +26,7 @@ const updateOrderStatus: Handler = async (req: Request,res: Response)=>{
         return responseGenerator.
                 status.
                 OK().
+                data(error[1]).
                 message("Order Status Successfully Updated...").
                 send();
     }
