@@ -26,6 +26,7 @@ import subCategoryView from './viewSubCategory';
 import subCategoryRegister from './registerSubCategory';
 import subCategoryDelete from './deleteSubCategory';
 
+import customAttributeView from './viewCustomAttributes';
 import customAttributeRegister from './registerCustomAttribute';
 import customAttributeDelete from './deleteCustomAttribute';
 
@@ -65,6 +66,7 @@ productRouter.get('/sub-category-view',subCategoryView);
 productRouter.post('/sub-category-register',subCategoryRegister);
 //productRouter.delete('/sub_category_delete/:subCategoryId',subCategoryDelete);  //params -> sub_category_id
 
+productRouter.get('/custom-attribute-view',customAttributeView);
 productRouter.post('/custom-attribute-register',customAttributeRegister);
 productRouter.delete('/custom-attribute-delete/:customAttributeId',customAttributeDelete);  //params -> custom_attribute_id
 

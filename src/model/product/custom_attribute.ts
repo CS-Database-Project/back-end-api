@@ -1,4 +1,4 @@
-import { find, query, transaction,deleteData } from '../queryTool';
+import { find, query, transaction,deleteData, select } from '../queryTool';
 import { ERROR } from '../ERROR';
 import { ProductCustomAttributeModel } from './product_custom_attribute';
 
@@ -40,6 +40,11 @@ export class CustomAttributeModel{
 
     static async findByCustomAttributeById(customAttributeId: string): Promise<[ERROR, CustomAttribute[]]> {
         const [error, data] = await find(this.tableName, [], 'custom_attribute_id', customAttributeId);
+        return [error as ERROR, data as CustomAttribute[]];
+    }
+
+    static async getAllCustomAttributes(): Promise<[ERROR, CustomAttribute[]]>{
+        const [error, data] = await select(this.tableName, []);
         return [error as ERROR, data as CustomAttribute[]];
     }
 }
