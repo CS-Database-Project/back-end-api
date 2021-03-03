@@ -26,6 +26,7 @@ export class ProductModel{
                                 p.description,
                                 p.weight,
                                 p.sku,
+                                p.deleted,
                                 (SELECT 
                                     COALESCE(json_agg(json_build_object('rating', rating,'description' ,pr.description)) FILTER (WHERE pr.rating IS NOT NULL), '[]') AS reviews
                                     FROM ${this.tableName}
@@ -72,25 +73,8 @@ export class ProductModel{
     }
 
     static async deleteProduct(id:string){
-        //const [error4,data4] = await deleteData(ProductReviewModel.tableName,'product_id',id);
-        //const [error3,data3] = await deleteData(ProductCategoryModel.tableName,'product_id',id);
-        //const [error2,data2] = await deleteData(ProductVariantModel.tableName,'product_id',id);
-        //const [error1,data1]= await deleteData(this.tableName,'product_id',id);
-
-        const query1= `DELETE FROM ${this.tableName} WHERE product_id=$1`;
-        const query2= `DELETE FROM ${ProductVariantModel.tableName} WHERE product_id=$1`;
-        const query3= `DELETE FROM ${ProductCategoryModel.tableName} WHERE product_id=$1`;
-        const query4= `DELETE FROM ${ProductReviewModel.tableName} WHERE product_id=$1`;
-        
-        const args1 =[id];
-        const args2 =[id];
-        const args3 =[id];
-        const args4 =[id];
-
-        const error = await transaction([query4,query3,query2,query1],[args4,args3,args2,args1]);
+        const [error, data] = await update(this.tableName, {deleted: true}, 'product_id', id);
         return error;
-
-       // return [error1 as ERROR,data1,data2,data3];
     }
 
     static async updateProduct(productData :Product,id:string){

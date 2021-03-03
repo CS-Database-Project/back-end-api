@@ -64,7 +64,8 @@ CREATE TABLE IF NOT EXISTS product(
     title TEXT NOT NULL UNIQUE,
     sku TEXT NOT NULL,
     weight NUMERIC(10,2) NOT NULL,
-    description TEXT NOT NULL
+    description TEXT NOT NULL,
+    deleted BOOLEAN NOT NULL DEFAULT false
 );
 
 CREATE TABLE IF NOT EXISTS product_category(
