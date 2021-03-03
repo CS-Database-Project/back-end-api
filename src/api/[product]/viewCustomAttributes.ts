@@ -25,7 +25,7 @@ const viewCustomAttributes: Handler = async (req:Request, res: Response) =>{
                 status.
                 OK().
                 message("No Custom Attributes Found").
-                data({}).
+                data([]).
                 send();
     }
     

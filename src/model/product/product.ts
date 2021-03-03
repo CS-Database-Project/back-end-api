@@ -5,6 +5,7 @@ import {CategoryModel} from './category/category';
 import {ProductReviewModel} from './product_review';
 import { ERROR } from '../ERROR';
 import { CustomerModel } from '../customer/customer';
+import { ProductCustomAttribute, ProductCustomAttributeModel } from './product_custom_attribute';
 
 
 
@@ -53,22 +54,19 @@ export class ProductModel{
         return [error as ERROR, data];
     }
     
-    static async addProduct(productData :Product, productVariantData: ProductVariant){
+    static async addProduct(productData: any,productVariants:any, productCategories:any ,productCustomAttributes: any){
         const query1= `INSERT INTO ${this.tableName}(product_id,title,sku,weight,description) VALUES ($1,$2,$3,$4,$5)`;
-        const query2 = `INSERT INTO ${ProductVariantModel.tableName}(product_id,variant_name,unit_price,count_in_stock) VALUES ($1,$2,$3,$4)`;
-    
+        const query2 = `INSERT INTO ${ProductVariantModel.tableName}(product_id,variant_name,unit_price,count_in_stock) VALUES ${getVariants(productVariants, productData.productId)};`;
+        const query3 = `INSERT INTO ${ProductCategoryModel.tableName}(product_id, category_id)  VALUES ${getCategories(productCategories, productData.productId)};`
+        const query4 = `INSERT INTO ${ProductCustomAttributeModel.tableName}(product_id, custom_attribute_id, value)  VALUES ${getCustomAttributes(productCustomAttributes, productData.productId)};`
+
         const args1= [productData.productId,
                       productData.title,
                       productData.sku,
                       productData.weight.toString(),
                       productData.description];
 
-        const args2= [productVariantData.productId,
-                      productVariantData.variantName,
-                      productVariantData.unitPrice.toString(),
-                      productVariantData.countInStock.toString()];
-
-        const error = await transaction([query1, query2],[args1, args2]);
+        const error = await transaction([query1, query2, query3, query4],[args1, [], [], []]);
         return error;
     }
 
@@ -87,4 +85,51 @@ export class ProductModel{
         const [error, data] = await find(this.tableName, [], 'product_id', productId);
         return [error as ERROR, data as Product[]];
     }
+}
+
+
+function getVariants(productVariants:any, id:any){
+    let values = '';
+
+    for(let i=0;i<productVariants.length; i++){
+        const {name, unitPrice, countInStock } = productVariants[i];
+        if(i !==0){
+            values = values + `,('${id}', '${name}', ${unitPrice}, ${countInStock})`
+        }else{
+            values = values + `('${id}', '${name}', ${unitPrice}, ${countInStock})`
+        }
+        
+    }
+    return values;
+
+}
+
+
+
+function getCategories(productCategories:any, id:any){
+    let values = '';
+    for(let i=0; i< productCategories.length; i++){
+        if(i !==0 ){
+            values = values + `,('${id}', '${productCategories[i]}')`
+        }else{
+            values = values + `('${id}', '${productCategories[i]}')`
+        }
+    }
+
+    return values;
+}
+
+function getCustomAttributes(productCustomAttributes: any, id: any){
+    let values = '';
+    for(let i=0; i< productCustomAttributes.length; i++){
+        const {value, customAttributeId } = productCustomAttributes[i];
+        if(i !==0 ){
+            values = values + `,('${id}', '${customAttributeId}', '${value}')`
+        }else{
+            values = values + `('${id}', '${customAttributeId}', '${value}')`
+        }
+    }
+
+    return values;
+
 }

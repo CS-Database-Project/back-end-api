@@ -32,36 +32,38 @@ const registerProduct = async (req:any, res: any, next: NextFunction)=>{
     const productId = UUID();
     
 
-    // const productData={
-    //     productId,
-    //     title,
-    //     sku,
-    //     weight,
-    //     description
-    // };
+    const productData={
+        productId,
+        title,
+        sku,
+        weight,
+        description
+    };
 
-    // const productVariantData = JSON.parse(variants);
+    const productVariants = JSON.parse(variants);
+    const productCategories = JSON.parse(categories);
+    const productCustomAttributes = JSON.parse(customAttributes);
 
-    // const error = await model.product.product.addProduct(productData,productVariantData);
-    // if(error === ERROR.NO_ERROR) {
-    //     return responseGenerator.
-    //             status.
-    //             OK().
-    //             message("Product Successfully Added...").
-    //             data(productData).
-    //             send();
-    // }
-    // if(error == ERROR.DUPLICATE_ENTRY){
-    //     return responseGenerator.
-    //             status.
-    //             BAD_REQUEST().
-    //             message("Product Already Exists...").
-    //             send();
-    // }
+    const error = await model.product.product.addProduct(productData,productVariants, productCategories,productCustomAttributes );
+    if(error === ERROR.NO_ERROR) {
+        return responseGenerator.
+                status.
+                OK().
+                message("Product Successfully Added...").
+                data(productId).
+                send();
+    }
+    if(error == ERROR.DUPLICATE_ENTRY){
+        return responseGenerator.
+                status.
+                BAD_REQUEST().
+                message("Product Already Exists...").
+                send();
+    }
     
-    // responseGenerator.prebuild().send();
+    responseGenerator.prebuild().send();
 
-    responseGenerator.status.OK().data(productId).message("Success").send();
+
 
 }
 
