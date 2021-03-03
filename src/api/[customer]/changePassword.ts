@@ -57,7 +57,7 @@ const changePassword:Handler = async(req: Request, res: Response) => {
         return;
     }
 
-    responseGenerator.status.OK().message("Successfully changed password...").send();
+    responseGenerator.status.OK().data(data).message("Successfully changed password...").send();
 
 }
 
