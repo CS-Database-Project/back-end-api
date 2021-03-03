@@ -33,11 +33,14 @@ import productCustomAttributeRegister from './registerProductCustomAttribute';
 import productCustomAttributeDelete from './deleteProductCustomAttribute';
 import searchResult from './search';
 
+var multer  = require('multer')
+var upload = multer({ dest: 'uploads/'})
+
 const productRouter = Router();
 
 
 productRouter.get('/product-view',productView);
-productRouter.post('/product-register',productRegister);
+productRouter.post('/product-register',upload.single('productImage'), productRegister);
 productRouter.put('/product-update/:productId',productUpdate);  //params -> product_id
 productRouter.delete('/product-delete/:productId',productDelete);  //params -> product_id
 

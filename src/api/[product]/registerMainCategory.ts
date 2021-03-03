@@ -38,7 +38,7 @@ const registerCategory: Handler = async (req:Request, res: Response)=>{
                 status.
                 OK().
                 message("Category Successfully Added...").
-                data(mainCategoryData).
+                data({category: mainCategoryData, subCategories: {}}).
                 send();
     }
     if(error == ERROR.DUPLICATE_ENTRY){
