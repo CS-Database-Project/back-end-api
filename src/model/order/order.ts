@@ -2,6 +2,7 @@ import { ERROR } from '../ERROR';
 import {query, update} from '../queryTool';
 import {OrderItemModel} from './order_item';
 import { convertSnakeCase } from './../../utilities/snakeCase';
+import { OrderStatusModel } from './order_status';
 
 
 export interface Order{
@@ -33,10 +34,15 @@ export class OrderModel{
         od.comments,
         od.dispatched_date,
         od.payment_method_id,
-        json_agg(json_build_object('productId',oi.product_id, 'variantName', oi.product_variant, 'quantity', oi.quantity, 'unitPrice', oi.unit_price)) AS items
+        os.name AS status,
+        pm.name AS payment,
+        json_agg(json_build_object('productId',oi.product_id, 'variantName', oi.product_variant, 'quantity', oi.quantity, 'unitPrice', oi.unit_price,'product',p.title)) AS items
     FROM ${this.tableName} od
+    JOIN ${OrderStatusModel.tableName} os USING(order_status_id)
+    JOIN payment_method pm USING(payment_method_id)
     JOIN ${OrderItemModel.tableName} oi USING(order_id)
-    GROUP BY od.order_id;`
+	JOIN product p USING(product_id)
+    GROUP BY (od.order_id,os.name,pm.name);`
         const [error, data] = await query(statement, [], true);
         return [error as ERROR, data];
     }

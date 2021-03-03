@@ -19,7 +19,7 @@ const paymentValidator = inputValidator(
 
 const placeOrder:Handler = async(req: Request, res: Response) => {
     const { responseGenerator } = res;
-    const { customerId/*, orderDate, orderStatusId, comments, dispatchedDate, paymentMethodId , deliveryMethod*/} = req.body;
+    const { customerId, orderDate, orderStatusId, comments, dispatchedDate, paymentMethodId , deliveryMethod} = req.body;
     const { products } = req.body;
 
     const orderId = UUID();
@@ -28,11 +28,11 @@ const placeOrder:Handler = async(req: Request, res: Response) => {
         orderId,
         customerId,
         orderDate:new Date(),
-        deliveryMethod:"Deliver",
-        orderStatusId:"1",
+        deliveryMethod,
+        orderStatusId,
         comments:"",
         dispatchedDate:new Date(),
-        paymentMethodId:"1"
+        paymentMethodId
     }
 
 
@@ -44,7 +44,7 @@ const placeOrder:Handler = async(req: Request, res: Response) => {
           
         let productId= values[0];
         let quantity = values[4];
-        let unitPrice = values[5];
+        let unitPrice = (parseFloat(values[5])/parseInt(quantity)).toString();
         let productVariant = values[2];
 
         let orderItemDetails= {
