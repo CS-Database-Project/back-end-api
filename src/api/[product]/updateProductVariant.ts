@@ -14,7 +14,7 @@ const validator = inputValidator(
     body('variantName').exists().withMessage("Variant Name is required..."),
     body('unitPrice').exists().withMessage("Unit Price is required..."),
     body('countInStock').exists().withMessage("Count in stock  is required..."),
-    param('variant').isUUID().withMessage("Product Id shoud be a valid UUID...")
+    param('productId').isUUID().withMessage("Product Id shoud be a valid UUID...")
     
 );
 
@@ -25,14 +25,16 @@ const validator = inputValidator(
 const updateProductVariant: Handler = async (req: Request,res: Response)=>{
 
     const {responseGenerator} = res;
-    const {variantName,unitPrice,countInStock} = req.body;
+    const {variantName,unitPrice,countInStock, productId} = req.body;
     const variant = req.params.variant;
 
     const productVariantData={
+        productId,
         variantName,
         unitPrice,
         countInStock
     }
+
 
     const result = await model.product.productVariant.updateProductVariant(productVariantData,variant);
 
@@ -40,7 +42,7 @@ const updateProductVariant: Handler = async (req: Request,res: Response)=>{
     return responseGenerator.
                 status.
                 OK().
-                data(result[1]).
+                data(productVariantData).
                 message("Product Variant Successfully Updated...").
                 send();
     }

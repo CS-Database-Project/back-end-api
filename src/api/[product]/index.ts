@@ -13,6 +13,7 @@ import productVariantView from './viewProductVariant';
 import productVariantRegister from './registerProductVariant';
 import productVariantUpdate from './updateProductVariant';
 import productVariantDelete from './deleteProductVariant';
+import productStockUpdate from './updateProductStock';
 
 import productReviewView from './viewProductReview';
 import productReviewRegister from './registerProductReview';
@@ -49,6 +50,7 @@ productRouter.get('/product-variant-view',productVariantView);
 productRouter.post('/product-variant-register/:productId',productVariantRegister);  //params -> product_id
 productRouter.put('/product-variant-update/:productId',productVariantUpdate);  //params -> variant
 productRouter.delete('/product-variant-delete/:productId',productVariantDelete); //params -> variant
+productRouter.put('/product-stock-update', productStockUpdate);
 
 productRouter.get('/product-review-view',productReviewView);
 productRouter.post('/product-review-register/:productId',productReviewRegister);  //params -> product_id

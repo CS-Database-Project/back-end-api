@@ -39,10 +39,17 @@ export class ProductVariantModel{
         return [error as ERROR, data];
     }
 
-    static async updateProductVariant(productVariantData:ProductVariantForUpdate,id:string){
-        const [error, data]=await update(this.tableName,productVariantData,'variant_name',id);
+    static async updateProductVariant(productVariantData:ProductVariant, id:string){
+        const [error, data] = await update(this.tableName,productVariantData,'variant_name',id);
         return [error as ERROR, data];
     }
+
+    static async updateProductStock(productVariantData:ProductVariant){
+        const query1 = `UPDATE ${this.tableName} SET count_in_stock = $1 WHERE product_id = $2 AND variant_name = $3;`;
+        const error = await query(query1, [productVariantData.countInStock,productVariantData.productId,productVariantData.variantName], false);
+        return error;
+     }
+ 
 
     static async findByProductVariantById(productId: string): Promise<[ERROR, ProductVariant[]]> {
         const [error, data] = await find(this.tableName, [], 'product_id', productId);
