@@ -14,7 +14,7 @@ const validator = inputValidator(
     body('variantName').exists().withMessage("Variant Name is required..."),
     body('unitPrice').exists().withMessage("Unit Price is required..."),
     body('countInStock').exists().withMessage("Count in stock  is required..."),
-    param('productId').isUUID().withMessage("Product Id shoud be a valid UUID...")
+    body('productId').isUUID().withMessage("Product Id shoud be a valid UUID...")
     
 );
 
@@ -22,11 +22,11 @@ const validator = inputValidator(
     STEP 2 - Updating a Product Variant
 */
 
-const updateProductVariant: Handler = async (req: Request,res: Response)=>{
+const updateProductStock: Handler = async (req: Request,res: Response)=>{
 
     const {responseGenerator} = res;
     const {variantName,unitPrice,countInStock, productId} = req.body;
-    const variant = req.params.variant;
+    //const variant = req.params.variant;
 
     const productVariantData={
         productId,
@@ -36,7 +36,7 @@ const updateProductVariant: Handler = async (req: Request,res: Response)=>{
     }
 
 
-    const result = await model.product.productVariant.updateProductVariant(productVariantData,variant);
+    const result = await model.product.productVariant.updateProductStock(productVariantData);
 
     if(result[0] === ERROR.NO_ERROR) {
     return responseGenerator.
@@ -58,4 +58,4 @@ const updateProductVariant: Handler = async (req: Request,res: Response)=>{
     responseGenerator.prebuild().send();
 }
 
-export default [validator,updateProductVariant as EHandler];
+export default [validator,updateProductStock as EHandler];
