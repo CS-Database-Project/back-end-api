@@ -28,6 +28,7 @@ const deleteProduct: Handler = async (req: Request,res: Response)=>{
     return responseGenerator.
                 status.
                 OK().
+                data(productId).
                 message("Product Successfully Deleted...").
                 send();
     }
