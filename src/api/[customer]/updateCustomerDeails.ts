@@ -26,7 +26,7 @@ const updateDetails:Handler = async(req: Request, res: Response) => {
     if(error === ERROR.NO_ERROR){
         return responseGenerator.status
                                 .OK()
-                                .data(customerData)
+                                .data({...customerData,usertype:"Customer",activeStatus:true})
                                 .message("Successfully Updated Customer...")
                                 .send();
     }
