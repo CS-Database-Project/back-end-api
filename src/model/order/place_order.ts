@@ -60,7 +60,7 @@ export class PlaceOrderModel{
                 const [error2, data2] = await query(query2, [orderItemData[i].productId, orderItemData[i].productVariant], true);
                 const TableData = data2 as ProductVariant[];
 
-                const query5=`
+                /* const query5=`
                 CREATE OR REPLACE FUNCTION get_total()
                   RETURNS trigger AS
                 $$
@@ -84,7 +84,7 @@ export class PlaceOrderModel{
                   `;
 
                 
-                const [error5] = await query(query5,[],false );
+                const [error5] = await query(query5,[],false ); */
 
                 const query3 = `INSERT INTO ${this.orderItemTable}(order_id, product_id, product_variant, quantity, unit_price ) VALUES ($1,$2,$3,$4,$5);`;
                 const args3= [orderItemData[i].orderId,
@@ -95,10 +95,10 @@ export class PlaceOrderModel{
 
                 const [error3] = await query(query3,args3,false );
 
-                const query6=`DROP TRIGGER get_total
-                ON order_item;`;
+                // const query6=`DROP TRIGGER get_total
+                // ON order_item;`;
 
-                const[error6] = await query(query6,[],false);
+                // const[error6] = await query(query6,[],false);
 
                 const new_stock_count = parseInt(TableData[0].countInStock) - parseInt(orderItemData[i].quantity);
                 const stock_count = new_stock_count.toString();
